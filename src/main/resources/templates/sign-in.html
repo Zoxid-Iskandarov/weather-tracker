@@ -26,10 +26,10 @@
                 Invalid username or password.
             </div>
             <div th:if="${param.logout}" class="alert alert-success" role="alert">
-                You have been logged out.
+                You’ve successfully logged out.
             </div>
 
-            <form th:action="@{/login}" method="post" class="mt-4">
+            <form th:action="@{/sign-in}" method="post" class="mt-4">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
 
@@ -50,7 +50,7 @@
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign In</button>
                 <p class="mt-2 text-center">
-                    Don't have an account? <a th:href="@{/registration}">Sign up here</a>
+                    Don't have an account? <a th:href="@{/sign-up}">Sign up here</a>
                 </p>
             </form>
         </div>

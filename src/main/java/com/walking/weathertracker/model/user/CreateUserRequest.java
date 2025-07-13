@@ -9,14 +9,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateUserRequest {
-    @NotBlank(message = "Username cannot be empty")
-    @Email(message = "Username must be a valid email")
+    @NotBlank(message = "Username cannot be empty.")
+    @Email(message = "Username must be a valid email.")
     private String username;
 
-    @NotBlank(message = "Password cannot be empty")
-    @Size(min = 6, message = "Password must be at least 6 characters long")
+    @NotBlank(message = "Password cannot be empty.")
+    @Size(min = 6, message = "Password must be at least 6 characters long.")
     private String password;
 
-    @NotBlank(message = "Repeat password cannot be empty")
+    @NotBlank(message = "This field cannot be empty.")
     private String repeatPassword;
 }

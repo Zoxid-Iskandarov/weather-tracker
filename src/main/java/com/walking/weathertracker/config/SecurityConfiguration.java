@@ -21,15 +21,15 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authRequest -> authRequest
-                        .requestMatchers("/login", "/registration", "/style.css", "/images/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/registration").permitAll()
+                        .requestMatchers("/sign-in", "/sign-up", "/style.css", "/images/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/sign-up").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(loginForm -> loginForm
-                        .loginPage("/login")
+                        .loginPage("/sign-in")
                         .defaultSuccessUrl("/", true))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout"))
+                        .logoutSuccessUrl("/sign-in?logout"))
                 .build();
     }
 

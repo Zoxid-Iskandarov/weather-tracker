@@ -17,26 +17,26 @@ public class UserController {
     private final UserService userService;
     private final RegistrationValidator registrationValidator;
 
-    @GetMapping("/login")
+    @GetMapping("/sign-in")
     public String getLoginPage() {
         return "sign-in";
     }
 
-    @GetMapping("/registration")
+    @GetMapping("/sign-up")
     public String registrationPage(@ModelAttribute("user") CreateUserRequest user) {
-        return "sing-up";
+        return "sign-up";
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/sign-up")
     public String createUser(@Validated @ModelAttribute("user") CreateUserRequest userRequest,
                              BindingResult bindingResult) {
         registrationValidator.validate(userRequest, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "sing-up";
+            return "sign-up";
         }
 
         userService.create(userRequest);
-        return "redirect:/login";
+        return "redirect:/sign-in";
     }
 }

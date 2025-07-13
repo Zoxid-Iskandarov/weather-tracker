@@ -20,7 +20,7 @@
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
 
-            <form th:action="@{/registration}" th:object="${user}" method="post" class="mt-4">
+            <form th:action="@{/sign-up}" th:object="${user}" method="post" class="mt-4">
 
                 <!-- глобальная ошибка -->
                 <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
@@ -66,7 +66,7 @@
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>
                 <p class="mt-2 text-center">
                     Already have an account?
-                    <a th:href="@{/login}">Sign in here</a>
+                    <a th:href="@{/sign-in}">Sign in here</a>
                 </p>
             </form>
         </div>

@@ -22,11 +22,11 @@ public class RegistrationValidator implements Validator {
         CreateUserRequest request = (CreateUserRequest) target;
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            errors.rejectValue("username", "409", "Username already exists");
+            errors.rejectValue("username", "409", "Account with this username already exists.");
         }
 
         if (!request.getPassword().equals(request.getRepeatPassword())) {
-            errors.rejectValue("repeatPassword", "400", "Passwords do not match");
+            errors.rejectValue("repeatPassword", "400", "Passwords don't match.");
         }
     }
 }
