@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${username}">
+    <span th:text="${username}"></span>
+</div>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout">
+</form>
+<hr>
+<br>
+<form action="/search" method="get">
+    <label for="search">
+        <input id="search" type="text" name="location" placeholder="Enter location" required>
+    </label>
+
+    <input type="submit" value="Search">
+
+    <div th:if="${error}" style="color: red">
+        <p th:text="${error}">error</p>
+    </div>
+</form>
+
+<div th:each="location : ${locations}">
+    <img th:src="@{https://openweathermap.org/img/wn/{icon}.png(icon=${location.getIcon()})}" alt="icon">
+    <br>
+    <span th:text="${location.getIcon()}">text</span>
+    <br>
+    <span th:text="${location.getTemperature()}">text</span>
+    <br>
+    <span th:text="${location.getName()} + ', ' + ${location.getState()}">text</span>
+    <br>
+    <span th:text="'Feels like ' + ${location.getFeelsLike()} + '. ' + ${location.getDescription()}">text</span>
+    <br>
+    <span th:text="'Humidity: ' + ${location.getHumidity()}">text</span>
+
+    <form th:action="@{/delete-location/{id}(id=${location.getId()})}" th:method="delete">
+        <input type="submit" value="Delete">
+    </form>
+
+    <hr>
+</div>
+</body>
+</html>

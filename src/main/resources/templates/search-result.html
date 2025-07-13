@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${username}">
+    <span th:text="${username}"></span>
+</div>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout">
+</form>
+<hr>
+<br>
+<form action="/search" method="get">
+    <label for="search">
+        <input id="search" type="text" name="location" placeholder="Enter location" required>
+    </label>
+
+    <input type="submit" value="Search">
+</form>
+
+<div th:if="${locations.isEmpty()}">
+    <h3>No locations found</h3>
+</div>
+<div th:unless="${locations.isEmpty()}">
+    <h2>Locations:</h2>
+    <div th:each="location : ${locations}">
+        <p th:text="${location.getName()}">text</p>
+        <p th:text="'Latitude: ' + ${location.getLatitude()}">text</p>
+        <p th:text="'Longitude: ' + ${location.getLongitude()}">text</p>
+        <p th:text="'Coutry: ' + ${location.getCountry()}">text</p>
+        <p th:text="'State: ' + ${location.getState()}">text</p>
+
+        <form th:action="@{/add-location}" method="post">
+            <input type="hidden" name="latitude" th:value="${location.getLatitude()}">
+            <input type="hidden" name="longitude" th:value="${location.getLongitude()}">
+
+            <input type="submit" value="Add">
+        </form>
+
+        <hr>
+    </div>
+</div>
+</body>
+</html>
