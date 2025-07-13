@@ -19,12 +19,12 @@ public class UserController {
 
     @GetMapping("/login")
     public String getLoginPage() {
-        return "login";
+        return "sign-in";
     }
 
     @GetMapping("/registration")
     public String registrationPage(@ModelAttribute("user") CreateUserRequest user) {
-        return "registration";
+        return "sing-up";
     }
 
     @PostMapping("/registration")
@@ -33,7 +33,7 @@ public class UserController {
         registrationValidator.validate(userRequest, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "registration";
+            return "sing-up";
         }
 
         userService.create(userRequest);

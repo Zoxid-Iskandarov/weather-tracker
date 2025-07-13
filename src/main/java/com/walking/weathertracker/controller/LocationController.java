@@ -34,7 +34,7 @@ public class LocationController {
         model.addAttribute("username", userDetails.getUsername());
         model.addAttribute("locations", locationService.getLocationsByCity(location));
 
-        return "search-result";
+        return "search-results";
     }
 
     @PostMapping("/add-location")

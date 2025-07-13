@@ -18,10 +18,14 @@ public class LocationDtoConverter implements Converter<WeatherResponse, Location
         target.setHumidity(source.getMain().getHumidity());
 
         if (!source.getWeather().isEmpty()) {
-            target.setDescription(source.getWeather().getFirst().getDescription());
+            target.setDescription(formatDescription(source.getWeather().getFirst().getDescription()));
             target.setIcon(source.getWeather().getFirst().getIcon());
         }
 
         return target;
+    }
+
+    private String formatDescription(String s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 }
