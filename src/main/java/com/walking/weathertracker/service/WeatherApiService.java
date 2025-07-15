@@ -2,6 +2,7 @@ package com.walking.weathertracker.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walking.weathertracker.model.weather.ForecastResponse;
 import com.walking.weathertracker.model.weather.LocationResponse;
 import com.walking.weathertracker.model.weather.WeatherResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class WeatherApiService {
     private static final String BASE_URL = "https://api.openweathermap.org";
     private static final String WEATHER_API_SUFFIX = "/data/2.5/weather";
     private static final String GEOCODING_API_SUFFIX = "/geo/1.0/direct";
+    private static final String FORECAST_API_SUFFIX = "/data/2.5/forecast";
 
     private final WebClient client;
     private final ObjectMapper objectMapper;
@@ -44,7 +46,18 @@ public class WeatherApiService {
                 .bodyToMono(String.class)
                 .block();
 
-        return objectMapper.readValue(json, new TypeReference<>() {});
+        return objectMapper.readValue(json, new TypeReference<>() {
+        });
+    }
+
+    public ForecastResponse getForecasts(double latitude, double longitude) {
+        URI uri = buildUrlForForecast(latitude, longitude);
+
+        return client.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(ForecastResponse.class)
+                .block();
     }
 
     private URI buildUrlForWeather(double latitude, double longitude) {
@@ -64,6 +77,17 @@ public class WeatherApiService {
                 .queryParam("q", location)
                 .queryParam("limit", 5)
                 .queryParam("appid", APP_ID)
+                .build()
+                .toUri();
+    }
+
+    private URI buildUrlForForecast(double latitude, double longitude) {
+        return UriComponentsBuilder
+                .fromUriString(BASE_URL + FORECAST_API_SUFFIX)
+                .queryParam("lat", latitude)
+                .queryParam("lon", longitude)
+                .queryParam("appid", APP_ID)
+                .queryParam("units", "metric")
                 .build()
                 .toUri();
     }

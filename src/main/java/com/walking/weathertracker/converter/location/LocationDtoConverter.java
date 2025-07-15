@@ -15,7 +15,14 @@ public class LocationDtoConverter implements Converter<WeatherResponse, Location
         target.setState(source.getSys().getCountry());
         target.setTemperature(source.getMain().getTemperature());
         target.setFeelsLike(source.getMain().getTemperatureFeelsLike());
+        target.setTemperatureMin(source.getMain().getTempMin());
+        target.setTemperatureMax(source.getMain().getTempMax());
+        target.setPressure(source.getMain().getPressure());
+        target.setVisibility(source.getVisibility());
         target.setHumidity(source.getMain().getHumidity());
+        target.setLatitude(source.getCoord().getLatitude());
+        target.setWindSpeed(source.getWind().getSpeed());
+        target.setLongitude(source.getCoord().getLongitude());
 
         if (!source.getWeather().isEmpty()) {
             target.setDescription(formatDescription(source.getWeather().getFirst().getDescription()));

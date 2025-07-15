@@ -1,10 +1,7 @@
 package com.walking.weathertracker.model.weather;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.walking.weathertracker.model.weather.entity.Coord;
-import com.walking.weathertracker.model.weather.entity.Main;
-import com.walking.weathertracker.model.weather.entity.Sys;
-import com.walking.weathertracker.model.weather.entity.Weather;
+import com.walking.weathertracker.model.weather.entity.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +20,8 @@ public class WeatherResponse {
     private Sys sys;
 
     private String name;
+
+    private Wind wind;
+
+    private Integer visibility;
 }

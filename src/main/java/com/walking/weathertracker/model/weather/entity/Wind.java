@@ -7,8 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Weather {
-    private String main;
-    private String description;
-    private String icon;
+public class Wind {
+    private double speed;
 }

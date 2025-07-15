@@ -65,6 +65,27 @@
                                 Humidity: <span th:text="${location.humidity}">70</span>%
                             </p>
                         </div>
+                        <div class="mt-auto">
+                            <form th:action="@{/forecast}" method="post">
+                                <input type="hidden" name="id" th:value="${location.id}">
+                                <input type="hidden" name="name" th:value="${location.name}">
+                                <input type="hidden" name="state" th:value="${location.state}">
+                                <input type="hidden" name="description" th:value="${location.description}">
+                                <input type="hidden" name="icon" th:value="${location.icon}">
+                                <input type="hidden" name="temperature" th:value="${location.temperature}">
+                                <input type="hidden" name="feelsLike" th:value="${location.feelsLike}">
+                                <input type="hidden" name="temperatureMin" th:value="${location.temperatureMin}">
+                                <input type="hidden" name="temperatureMax" th:value="${location.temperatureMax}">
+                                <input type="hidden" name="pressure" th:value="${location.pressure}">
+                                <input type="hidden" name="visibility" th:value="${location.visibility}">
+                                <input type="hidden" name="humidity" th:value="${location.humidity}">
+                                <input type="hidden" name="windSpeed" th:value="${location.windSpeed}">
+                                <input type="hidden" name="latitude" th:value="${location.latitude}">
+                                <input type="hidden" name="longitude" th:value="${location.longitude}">
+
+                                <button type="submit" class="btn btn-primary w-100">View Forecast</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

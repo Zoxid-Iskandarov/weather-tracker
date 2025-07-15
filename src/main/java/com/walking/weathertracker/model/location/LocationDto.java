@@ -13,5 +13,12 @@ public class LocationDto {
     private String icon;
     private double temperature;
     private double feelsLike;
+    private double temperatureMin;
+    private double temperatureMax;
+    private int pressure;
+    private int visibility;
     private int humidity;
+    private double windSpeed;
+    private double latitude;
+    private double longitude;
 }
