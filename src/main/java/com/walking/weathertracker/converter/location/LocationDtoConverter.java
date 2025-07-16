@@ -2,6 +2,7 @@ package com.walking.weathertracker.converter.location;
 
 import com.walking.weathertracker.model.location.LocationDto;
 import com.walking.weathertracker.model.weather.WeatherResponse;
+import com.walking.weathertracker.util.DateTimeUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,9 @@ public class LocationDtoConverter implements Converter<WeatherResponse, Location
             target.setDescription(formatDescription(source.getWeather().getFirst().getDescription()));
             target.setIcon(source.getWeather().getFirst().getIcon());
         }
+
+        target.setSunriseTime(DateTimeUtils.parseLocalTimeFromSeconds(source.getSys().getSunrise()));
+        target.setSunsetTime(DateTimeUtils.parseLocalTimeFromSeconds(source.getSys().getSunset()));
 
         return target;
     }

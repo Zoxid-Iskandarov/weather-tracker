@@ -28,3 +28,12 @@ section#page-content {
 .location-search-input-group .clear-input-button {
     border-color: rgb(222, 226, 230);
 }
+
+.weather-card .card-body {
+    padding-bottom: 0;
+}
+
+.weather-card .card-footer {
+    border-top: none;
+    padding-top: 0;
+}

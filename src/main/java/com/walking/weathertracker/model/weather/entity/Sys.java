@@ -9,4 +9,6 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Sys {
     private String country;
+    private Long sunrise;
+    private Long sunset;
 }

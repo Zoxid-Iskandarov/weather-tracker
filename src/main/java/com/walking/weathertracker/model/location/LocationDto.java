@@ -3,6 +3,8 @@ package com.walking.weathertracker.model.location;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalTime;
+
 @Getter
 @Setter
 public class LocationDto {
@@ -21,4 +23,6 @@ public class LocationDto {
     private double windSpeed;
     private double latitude;
     private double longitude;
+    private LocalTime sunriseTime;
+    private LocalTime sunsetTime;
 }

@@ -4,152 +4,102 @@
     <meta charset="UTF-8">
     <title>Weather Viewer – Forecast</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
     <style>
-        .forecast-card {
-            transition: all 0.3s ease;
-            border-radius: 10px;
-            font-size: 1.1rem;
+        body {
             background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
         }
+
+        .forecast-card {
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #fff;
+            border: none;
+        }
+
         .forecast-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            background-color: #e9ecef;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
-        .forecast-card .card-body {
-            padding: 1.25rem;
-        }
+
         .weather-icon {
-            width: 65px;
-            height: 65px;
-        }
-        h3 {
-            font-size: 1.6rem;
-        }
-        .card-title {
-            font-size: 1.25rem;
+            width: 60px;
+            height: 60px;
         }
 
-        .hourly-forecast, .daily-forecast {
-            background: none;
-            border-radius: 0;
-            padding: 0;
-            margin-bottom: 20px;
-        }
-
-        .hourly-container {
-            position: relative;
-        }
-        .hourly-scroll-wrapper {
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding-bottom: 15px;
-            margin-bottom: 10px;
-
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .hourly-scroll-wrapper::-webkit-scrollbar {
-            display: none;
+        .badge-custom {
+            font-size: 0.85rem;
+            padding: 0.4em 0.6em;
+            border-radius: 0.5rem;
         }
 
         .hourly-row {
             display: flex;
-            flex-wrap: nowrap;
-            gap: 15px;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
         }
 
-        .scroll-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background: rgba(108, 117, 125, 0.9);
-            border-radius: 50%;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 1;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .scroll-btn:hover {
-            background: rgba(73, 80, 87, 0.9);
-        }
-
-        .scroll-btn.left::after {
-            content: "<";
-        }
-
-        .scroll-btn.right::after {
-            content: ">";
-        }
-
-        .scroll-btn i {
+        .hourly-row::-webkit-scrollbar {
             display: none;
         }
 
-        .scroll-btn.left {
-            left: -20px;
-        }
-
-        .scroll-btn.right {
-            right: -20px;
-        }
-
-        .scroll-btn i {
-            font-size: 1.5rem;
-            color: #fff;
-        }
-
-        .scroll-btn.hidden {
-            visibility: hidden;
-        }
-
-        .current-weather-card {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
+        .hourly-card {
+            min-width: 160px;
+            flex: 0 0 auto;
         }
 
         .forecast-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
         }
 
-        @media (max-width: 768px) {
-            .scroll-btn {
-                display: none;
-            }
+        .forecast-header {
+            margin-bottom: 1rem;
         }
 
-        .weather-details {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
+        .day-name {
+            font-weight: bold;
             font-size: 1.1rem;
+        }
+
+        .small-muted {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .current-weather-card {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            padding: 1rem;
+        }
+
+        .current-weather-card .weather-icon {
+            width: 80px;
+            height: 80px;
+            opacity: 0.9;
+        }
+
+        .current-weather-card h1 {
+            font-size: 2.5rem;
+        }
+
+        .hourly-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+        }
+
+        .hourly-card {
+            flex: 1 1 calc(12.5% - 0.5rem);
+            text-align: center;
+            padding: 0.5rem;
         }
     </style>
 </head>
-<body>
 
+<body>
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
@@ -167,61 +117,33 @@
 
 <section id="page-content">
     <div class="container mt-4">
-        <!-- Current Weather Summary -->
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h2 class="mb-0" th:text="${currentLocation.name} + ', ' + ${currentLocation.state}">Location</h2>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        <img th:src="@{'https://openweathermap.org/img/wn/' + ${currentLocation.icon} + '@4x.png'}"
-                             alt="Weather icon" class="img-fluid mb-3" style="max-height: 150px;">
-                        <h3 th:text="${currentLocation.description}">Weather description</h3>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center mb-3">
-                                    <h1 class="display-3 mb-0" th:text="${currentLocation.temperature} + '°C'">23.9°C</h1>
-                                    <div class="ms-4">
-                                        <div class="text-muted small">Feels like</div>
-                                        <div class="h4" th:text="${currentLocation.feelsLike} + '°C'">23.39°C</div>
-                                    </div>
-                                </div>
 
-                                <div class="d-flex mb-3">
-                                    <div class="me-4">
-                                        <div class="text-muted small">Max</div>
-                                        <div class="h5" th:text="${currentLocation.temperatureMax} + '°C'">25°C</div>
-                                    </div>
-                                    <div>
-                                        <div class="text-muted small">Min</div>
-                                        <div class="h5" th:text="${currentLocation.temperatureMin} + '°C'">18°C</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="weather-details">
-                                    <div class="detail-item mb-2">
-                                        <i class="fas fa-tint me-2"></i>
-                                        <span>Humidity: <strong th:text="${currentLocation.humidity} + '%'">40%</strong></span>
-                                    </div>
-                                    <div class="detail-item mb-2">
-                                        <i class="fas fa-wind me-2"></i>
-                                        <span>Wind: <strong th:text="${currentLocation.windSpeed} + ' m/s'">3.5 m/s</strong></span>
-                                    </div>
-                                    <div class="detail-item mb-2">
-                                        <i class="fas fa-tachometer-alt me-2"></i>
-                                        <span>Pressure: <strong th:text="${currentLocation.pressure} + ' hPa'">1012 hPa</strong></span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-eye me-2"></i>
-                                        <span>Visibility: <strong th:text="${currentLocation.visibility} + ' m'">10000 m</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Current Weather -->
+        <div class="card current-weather-card text-center">
+            <div class="row g-0 align-items-center">
+                <div class="col-12 col-md-4 text-center">
+                    <img class="weather-icon my-2"
+                         th:src="@{'https://openweathermap.org/img/wn/' + ${currentLocation.icon} + '@4x.png'}"
+                         alt="Weather">
+                </div>
+                <div class="col-12 col-md-8 text-center text-md-start">
+                    <h2 class="mb-1" th:text="${currentLocation.name} + ', ' + ${currentLocation.state}">Location</h2>
+                    <p class="mb-1" th:text="${currentLocation.description}">Clear sky</p>
+                    <h1 class="fw-bold mb-1" th:text="${currentLocation.temperature} + '°C'">24°C</h1>
+                    <p class="mb-1">Feels like <strong th:text="${currentLocation.feelsLike} + '°C'">23°C</strong></p>
+                    <div>
+<span class="badge bg-danger bg-opacity-75 badge-custom me-1">
+<i class="fas fa-arrow-up"></i> <span th:text="${currentLocation.temperatureMax} + '°C'">27°C</span>
+</span>
+                        <span class="badge bg-primary bg-opacity-75 badge-custom">
+<i class="fas fa-arrow-down"></i> <span th:text="${currentLocation.temperatureMin} + '°C'">19°C</span>
+</span>
+                    </div>
+                    <div class="mt-2 small">
+                        Humidity: <strong th:text="${currentLocation.humidity} + '%'">60%</strong> •
+                        Wind: <strong th:text="${currentLocation.windSpeed} + ' m/s'">3.5</strong> •
+                        Pressure: <strong th:text="${currentLocation.pressure} + ' hPa'">1012</strong> •
+                        Visibility: <strong th:text="${currentLocation.visibility} + ' m'">10000</strong>
                     </div>
                 </div>
             </div>
@@ -229,67 +151,58 @@
 
         <!-- Hourly Forecast -->
         <div class="forecast-section">
-            <div class="hourly-forecast">
-                <div class="d-flex justify-content-between align-items-center mb-3 forecast-header">
-                    <h3 class="mb-0">Hourly Forecast</h3>
-                    <small class="text-muted">Next 24 hours</small>
-                </div>
-                <div class="hourly-container">
-                    <button class="scroll-btn left" onclick="scrollHourly(-300)">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
+            <div class="forecast-header">
+                <h3>Hourly Forecast</h3>
+                <small class="small-muted">Next 24 hours</small>
+            </div>
 
-                    <div class="hourly-scroll-wrapper">
-                        <div class="hourly-row">
-                            <div class="card forecast-card" style="min-width: 180px;" th:each="forecast : ${hourlyForecasts}">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title" th:text="${#temporals.format(forecast.dateTime, 'HH:mm')}">12:00</h5>
-                                    <img th:src="@{'https://openweathermap.org/img/wn/' + ${forecast.icon} + '.png'}"
-                                         alt="Weather icon" class="weather-icon mb-2">
-                                    <p class="card-text mb-1" th:text="${forecast.temperature} + '°C'">20°C</p>
-                                    <p class="card-text text-muted small" th:text="${forecast.description}">Cloudy</p>
-                                    <p class="card-text small">Feels like <span th:text="${forecast.feelsLike} + '°C'">18°C</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="scroll-btn right" onclick="scrollHourly(300)">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+            <div class="hourly-row">
+                <div class="forecast-card hourly-card text-center p-2" th:each="forecast : ${hourlyForecasts}">
+                    <h6 th:text="${#temporals.format(forecast.dateTime, 'HH:mm')}">12:00</h6>
+                    <img class="weather-icon my-1"
+                         th:src="@{'https://openweathermap.org/img/wn/' + ${forecast.icon} + '.png'}" alt="Icon">
+                    <div class="fw-bold" th:text="${forecast.temperature} + '°C'">20°C</div>
+                    <div class="small-muted" th:text="${forecast.description}">Cloudy</div>
+                    <div class="small">Feels <span th:text="${forecast.feelsLike} + '°C'">19°C</span></div>
                 </div>
             </div>
         </div>
 
         <!-- Daily Forecast -->
         <div class="forecast-section">
-            <div class="d-flex justify-content-between align-items-center mb-3 forecast-header">
-                <h3 class="mb-0">Daily Forecast</h3>
-                <small class="text-muted">Next 5 days</small>
+            <div class="forecast-header">
+                <h3>Daily Forecast</h3>
+                <small class="small-muted">Next 5 days</small>
             </div>
 
             <div class="row g-3">
                 <div class="col-12 col-md-6 col-lg-4" th:each="forecast : ${dailyForecasts}">
-                    <div class="card forecast-card daily-card">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-4 text-center">
-                                    <h5 class="day-display mb-1" th:text="${#temporals.format(forecast.dateTime, 'EEE', T(java.util.Locale).ENGLISH)}">Mon</h5>
-                                    <p class="small text-muted mb-2" th:text="${#temporals.format(forecast.dateTime, 'MMM d', T(java.util.Locale).ENGLISH)}">Jan 1</p>
-                                    <img th:src="@{'https://openweathermap.org/img/wn/' + ${forecast.icon} + '.png'}"
-                                         alt="Weather icon" class="weather-icon">
+                    <div class="forecast-card p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="day-name"
+                                     th:text="${#temporals.format(forecast.dateTime, 'EEE', T(java.util.Locale).ENGLISH)}">
+                                    Mon
                                 </div>
-                                <div class="col-8">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="temp-display" th:text="${forecast.temperature} + '°C'">22°C</span>
-                                        <span class="text-muted" th:text="'Humidity: ' + ${forecast.humidity} + '%'">65%</span>
-                                    </div>
-                                    <p class="small mb-2" th:text="${forecast.description}">Partly cloudy</p>
-                                    <div class="d-flex justify-content-between small text-muted">
-                                        <span th:text="'Wind: ' + ${forecast.windSpeed} + ' m/s'">3.5 m/s</span>
-                                        <!--                                        <span th:text="'Rain: ' + ${forecast.rain} + 'mm'">1.2mm</span>-->
-                                    </div>
+                                <div class="small-muted"
+                                     th:text="${#temporals.format(forecast.dateTime, 'MMM d', T(java.util.Locale).ENGLISH)}">
+                                    Jan 1
                                 </div>
+                            </div>
+                            <img class="weather-icon"
+                                 th:src="@{'https://openweathermap.org/img/wn/' + ${forecast.icon} + '.png'}"
+                                 alt="Icon">
+                        </div>
+                        <div class="mt-2">
+                            <div class="h4 fw-bold" th:text="${forecast.temperature} + '°C'">22°C</div>
+                            <p class="small-muted mb-1" th:text="${forecast.description}">Partly cloudy</p>
+                            <div>
+<span class="badge bg-info bg-opacity-50 badge-custom">
+Humidity: <span th:text="${forecast.humidity} + '%'">65%</span>
+</span>
+                            </div>
+                            <div class="mt-1 small-muted">
+                                Wind: <span th:text="${forecast.windSpeed} + ' m/s'">3.5</span>
                             </div>
                         </div>
                     </div>
@@ -299,50 +212,6 @@
     </div>
 </section>
 
-<!-- Font Awesome for icons -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-<script>
-    function scrollHourly(offset) {
-        const container = document.querySelector('.hourly-scroll-wrapper');
-        container.scrollBy({
-            left: offset,
-            behavior: 'smooth'
-        });
-        setTimeout(updateScrollButtons, 300);
-    }
-
-    function updateScrollButtons() {
-        const container = document.querySelector('.hourly-scroll-wrapper');
-        const leftBtn = document.querySelector('.scroll-btn.left');
-        const rightBtn = document.querySelector('.scroll-btn.right');
-
-        const scrollLeft = container.scrollLeft;
-        const scrollWidth = container.scrollWidth;
-        const clientWidth = container.clientWidth;
-
-        if (scrollLeft <= 0) {
-            leftBtn.classList.add('hidden');
-        } else {
-            leftBtn.classList.remove('hidden');
-        }
-
-        if (scrollLeft + clientWidth >= scrollWidth - 1) {
-            rightBtn.classList.add('hidden');
-        } else {
-            rightBtn.classList.remove('hidden');
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        updateScrollButtons();
-
-        const container = document.querySelector('.hourly-scroll-wrapper');
-        container.addEventListener("scroll", () => {
-            updateScrollButtons();
-        });
-    });
-</script>
-
 </body>
 </html>
