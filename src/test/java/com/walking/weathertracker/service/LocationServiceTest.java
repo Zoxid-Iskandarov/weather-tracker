@@ -83,7 +83,7 @@ class LocationServiceTest {
     }
 
     @Test
-    void getLocations_userHasNoLocations_returnsEmptyList() {
+    void getLocations_userHasNotLocations_returnsEmptyList() {
         doReturn(List.of()).when(locationRepository).findByUserIdOrderByCreatedAt(USER_ID);
 
         var actual = locationService.getLocations(USER_ID);
