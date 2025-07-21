@@ -1,10 +1,7 @@
 package com.walking.weathertracker.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends BaseEntity<Long> {
@@ -26,6 +24,7 @@ public class User extends BaseEntity<Long> {
     @Column(nullable = false, updatable = false, length = 100)
     private String password;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Location> locations = new ArrayList<>();
 }
