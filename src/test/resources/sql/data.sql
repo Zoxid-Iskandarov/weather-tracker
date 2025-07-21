@@ -1,5 +1,5 @@
 INSERT INTO users (id, username, password, created_at)
-VALUES (1,'johndoe@gmail.com', 'password123', '2025-06-21 10:00:00'),
+VALUES (1, 'johndoe@gmail.com', 'password123', '2025-06-21 10:00:00'),
        (2, 'janeSmith@gmail.com', 'securePass456', '2025-06-20 15:30:00'),
        (3, 'alex.wilson@gmail.com', 'mySecret789', '2025-07-19 08:45:00');
 SELECT SETVAL('users_id_seq', (SELECT MAX(id) FROM users));

@@ -1,6 +1,7 @@
 package com.walking.weathertracker.integration.service;
 
 import com.walking.weathertracker.integration.IntegrationTestBase;
+import com.walking.weathertracker.repository.LocationRepository;
 import com.walking.weathertracker.service.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -12,11 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LocationServiceIT extends IntegrationTestBase {
     private static final Long USER_ID = 1L;
     private static final Long OTHER_USER_ID = 3L;
+    private static final Long LOCATION_ID = 1L;
     private static final String LONDON = "London";
     private static final double LONDON_LAT = 51.5074;
     private static final double LONDON_LON = -0.1278;
 
     private final LocationService locationService;
+    private final LocationRepository locationRepository;
 
     @Test
     void getLocations_whenUserHasLocations_success() {
@@ -95,5 +98,14 @@ public class LocationServiceIT extends IntegrationTestBase {
 
         assertThat(actual).isNotEmpty();
         assertThat(actual).hasSize(3);
+    }
+
+    @Test
+    void deleteById_success() {
+        locationService.deleteById(LOCATION_ID);
+
+        var actual = locationRepository.findById(LOCATION_ID);
+
+        assertThat(actual).isEmpty();
     }
 }
