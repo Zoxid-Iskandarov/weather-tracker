@@ -1,0 +1,23 @@
+services:
+  weather-tracker:
+    image: zoxid/weather-tracker:1.0
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/weather_tracker_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  database:
+    image: postgres:17.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: weather_tracker_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

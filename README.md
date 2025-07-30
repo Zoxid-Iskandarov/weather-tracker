@@ -94,3 +94,31 @@
 <div align="center">
   <img src="docs/screenshots/sign-in.png" width="700" alt="Страница входа">
 </div>
+
+---
+
+## 🚀 Запуск проекта
+
+### 📦 Требования
+
+- Установленный [Docker](https://www.docker.com/products/docker-desktop/)
+- Установленный [Git](https://git-scm.com/)
+
+### 🔧 Шаги
+
+1. Клонируйте репозиторий:
+   ```
+   git clone https://github.com/Zoxid-Iskandarov/weather-tracker.git
+   cd weather-tracker
+2. Запустите контейнеры:
+    ```
+    docker compose up -d
+    ```
+
+   ✅ Приложение будет доступно по адресу: http://localhost:8080/
+
+
+3. Для остановки контейнеров:
+    ```
+    docker compose down
+   ```
